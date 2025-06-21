@@ -20,7 +20,7 @@ class SMSHandler:
         """Find the port for SIM7600G-H module on Windows or Raspberry Pi"""
         if self.is_raspberry_pi:
             # On Raspberry Pi, typically /dev/ttyUSB0 or /dev/ttyACM0
-            possible_ports = ['/dev/ttyUSB0', '/dev/ttyACM0']
+            possible_ports = ['/dev/ttyUSB2', '/dev/ttyACM0']
             for port in possible_ports:
                 if os.path.exists(port):
                     return port
