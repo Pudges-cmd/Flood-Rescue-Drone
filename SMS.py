@@ -177,6 +177,7 @@ class SMSHandler:
             print(f"Waiting {wait_time:.1f} seconds before sending next SMS...")
             time.sleep(wait_time)
             
+            
         try:
             # Set SMS text mode
             if not self.send_command('AT+CMGF=1', wait_time=2):
@@ -200,17 +201,22 @@ class SMSHandler:
             print(f"Error sending SMS: {e}")
             return False
         
-    def send_detection_alert(self, phone_number, human_count):
+    def send_detection_alert(self, phone_number, human_count, dog_count=0, cat_count=0):
         # Get current GPS location
         gps_location = self.get_gps_location()
         if not gps_location:
             gps_location = "GPS data unavailable"
             
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        message = f"ALERT: Human Detection\n"
+        message = f"🚨 FLOOD RESCUE DRONE ALERT 🚨\n"
         message += f"Time: {timestamp}\n"
         message += f"Location: {gps_location}\n"
-        message += f"Humans Detected: {human_count}"
+        message += f"Humans Detected: {human_count}\n"
+        if dog_count > 0:
+            message += f"Dogs Detected: {dog_count}\n"
+        if cat_count > 0:
+            message += f"Cats Detected: {cat_count}\n"
+        message += f"Status: Active Monitoring"
         
         return self.send_sms(phone_number, message)
 
@@ -222,7 +228,7 @@ if __name__ == "__main__":
     # Connect to the module
     if sms.connect():
         # Example phone number and data
-        phone_number = "+639514343942"  # Replace with actual phone number
+        phone_number = "+1234567890"  # Replace with actual phone number
         human_count = 3  # Replace with actual detection count
         
         # Send alert
